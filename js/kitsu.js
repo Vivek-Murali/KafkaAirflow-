@@ -58,18 +58,22 @@ switch(process.argv[2]){
                     console.error(err)
                 });
             max_threads = Math.round(max_threads['meta']['count']/20)+1;
-            for (let i = 0; i < max_threads; i++) {
-                offset = i*20;
+            console.log("Total Threads: " + max_threads);
+            for (let i = 0; i <= max_threads; i=i+20) {
                 const r = await api.get('anime', {
                     params: {
-                        include: "categories,genres,castings,mediaRelationships,characters,staff,streamingLinks,animeProductions,animeCharacters,animeStaff,installments",
+                        // categories,genres,castings,mediaRelationships,characters,staff,streamingLinks,animeProductions,animeCharacters,animeStaff,installments
+                        include: "categories,genres,mediaRelationships,characters,staff,streamingLinks,animeProductions,animeCharacters,animeStaff",
                     page: {
                         limit: 20,
-                        offset: offset
+                        offset: i
                         }
-                    }
+                    } 
+                    
                     })
-                    .then(res => {return res;})
+                    .then(res => {
+                        console.log("Threads Extracted->: " + i);
+                        return res;})
                     .catch(err => {
                         console.error(err)
                     });
@@ -100,6 +104,7 @@ switch(process.argv[2]){
                 offset = i*20;
                 const r = await api.get('manga', {
                     params: {
+
                         include: "categories,genres,castings,mediaRelationships,characters,staff,productions,mangaCharacters,mangaStaff,installments",
                     page: {
                         limit: 20,
@@ -271,16 +276,18 @@ switch(process.argv[2]){
                         console.log("Extraction Complete!!!");}).catch(err => {console.error(err)});
         break;
     case "Testings":
-        api.get('Streamers', {
+        api.get('Manga', {
             params: {
-                include: "streamingLinks,videos",
+                include: "categories,genres,castings,mediaRelationships,characters,staff,productions,mangaCharacters,mangaStaff,installments",
             page: {
                 limit: 10,
                 offset: 1
                 }
             }
             })
-            .then(res => { console.log(JSON.stringify(res));})
+            .then(data=>{const abc = JSON.stringify(data);
+                fs.writeFileSync(process.argv[3], abc);
+                console.log("Extraction Complete!!!");})
             .catch(err => {
                 console.error(err)
             });
