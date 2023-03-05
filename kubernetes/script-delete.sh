@@ -1,0 +1,9 @@
+kubectl delete -f airflow-rbac.yaml -n $1
+kubectl delete -f postgres-service.yaml -n $1
+kubectl delete -f postgres-deployment.yaml -n $1
+kubectl delete -f requirements-configmap.yaml -n $1
+kubectl delete -f airflow-envvars-configmap.yaml -n $1
+kubectl delete -f airflow-webserver-service.yaml -n $1
+kubectl delete -f airflow-webserver-deployment.yaml -n $1
+kubectl delete -f airflow-scheduler-deployment.yaml -n $1
+kubectl delete -f logs-persistenvolumeclaim.yaml -n $1 

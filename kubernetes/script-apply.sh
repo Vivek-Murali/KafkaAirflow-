@@ -1,0 +1,9 @@
+kubectl apply -f logs-persistenvolumeclaim.yaml -n $1
+kubectl apply -f airflow-rbac.yaml -n $1
+kubectl apply -f postgres-service.yaml -n $1
+kubectl apply -f postgres-deployment.yaml -n $1
+kubectl apply -f requirements-configmap.yaml -n $1
+kubectl apply -f airflow-envvars-configmap.yaml -n $1
+kubectl apply -f airflow-webserver-service.yaml -n $1
+kubectl apply -f airflow-webserver-deployment.yaml -n $1
+kubectl apply -f airflow-scheduler-deployment.yaml -n $1
